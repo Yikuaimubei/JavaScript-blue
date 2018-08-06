@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Document</title>
+</head>
+<style>
+	#div1{
+		width: 200px;
+		height: 200px;
+		background: red;
+		opacity: 0.3;
+	}
+</style>
+<script>
+	window.onload = function(){
+		var div1 = document.getElementById('div1');
+		div1.onmouseover = function(){
+			startMove(100);
+		}
+		div1.onmouseout = function(){
+			startMove(30);
+		}
+	}
+	var alpha = 30;//无法直接获取opacity的值,所以设置声明alpha变量,通过修改变量的值来操作
+	var timer = null;
+	
+	function startMove(iTarget){
+		var div1 = document.getElementById('div1');
+		clearInterval(timer);
+		var speed = 0;
+		if(alpha<iTarget){
+			speed = 10;
+		}else{
+			speed = -10;
+		}
+		timer = setInterval(function(){
+			if(alpha==iTarget){
+				clearInterval(timer);
+			}else{
+				alpha+=speed;
+				div1.style.opacity = alpha/100;
+			}
+		},30);
+	}
+</script>
+<body>
+	<div id="div1"></div>
+</body>
+</html>

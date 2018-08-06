@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Document</title>
+</head>
+<style>
+	#div1{
+		width: 400px;
+		height: 20px;
+		background: #CCCCCC;
+		position: absolute;
+	}
+	#div2{
+		width: 20px;
+		height: 20px;
+		background: red;
+		position: relative;
+	}
+	#div3{
+		width: 600px;
+		height: 500px;
+		margin-top: 30px;
+		overflow: hidden;
+		border: 1px solid #000000;
+		position: absolute;
+	}
+	#div4{
+		padding: 10px;
+		position: absolute;
+	}
+</style>
+<script>
+	window.onload = function(){
+		var div1 = document.getElementById('div1');
+		var div2 = document.getElementById('div2');
+		var div3 = document.getElementById('div3');
+		var div4 = document.getElementById('div4')
+		var disX = 0;
+		var disY = 0;
+		
+		div2.onmousedown = function(ev){
+			var oEvent = ev||event;
+			disX = oEvent.clientX - div2.offsetLeft;
+			
+			document.onmousemove = function(ev){
+				var oEvent = ev||event;
+				var l = oEvent.clientX - disX;
+				if(l<0){
+					l = 0;
+				}else if(l>div1.offsetWidth-div2.offsetWidth){
+					l = div1.offsetWidth-div2.offsetWidth;
+				}
+				div2.style.left = l + 'px';
+				var scale = l/(div1.offsetWidth-div2.offsetWidth);
+				document.title = scale;
+				div4.style.top = -scale*(div4.offsetHeight-div3.offsetHeight) + 'px';
+			}
+			
+			document.onmouseup = function(){
+				document.onmousemove = null;
+				document.onmouseup = null;
+			}
+			return false;
+		}
+	}
+</script>
+<body>
+	<div id="div1">
+		<div id="div2"></div>
+	</div>
+	<div id="div3">
+		<div id='div4'>
+		在我们的网页设计中经常要用到的元素就是div，今天偶然要用的div来做一个隐藏与显示滚动条：<br/>
+
+		div 加滚动条的方法：<br/>
+
+		1、超出后在自动显示滚动条<br/>
+		div 设置滚动条显示：overflow :yes<br/>
+		div 设置滚动条自适应显示：overflow :auto<br/>
+		div 设置上下滚动条显示：overflow-y :yes<br/>
+		div 设置上下滚动条自适应显示：overflow-y :auto<br/>
+
+		2、如果想无论超出或者没有超出的时候都要显示滚动条则可以进行如下设置<br/>
+
+		overflow-y:scroll;通过以上，我们几乎就可以来重写网站的滚动条了，但是webkit提供的还有更多的伪类，可以定制更丰富滚动条样式。本文以下内容参考：https://www.webkit.org/blog/363/styling-scrollbars/<br/>
+
+		:horizontal     horizontal  伪类，主要应用于选择水平方向滚动条。<br/>
+		:vertical    vertical伪类主要是应用于选择竖直方向滚动条<br/>
+		:decrement    decrement伪类应用于按钮和内层轨道(track piece)。它用来指示按钮或者内层轨道是否会减小视窗的位置(比如，垂直滚动条的上面，水平滚动条的左边。)<br/>
+		:increment     increment伪类与和decrement类似，用来指示按钮或内层轨道是否会增大视窗的位置(比如，垂直滚动条的下面和水平滚动条的右边。)<br/>
+		:start    start伪类也应用于按钮和滑块。它用来定义对象是否放到滑块的前面。<br/>
+		:end     类似于start伪类，标识对象是否放到滑块的后面。<br/>
+		:double-button    该伪类可以用于按钮和内层轨道。用于判断一个按钮是不是放在滚动条同一端的一对按钮中的一个。对于内层轨道来说，它表示内层轨道是否紧靠一对按钮。<br/>
+		:single-button    类似于double-button伪类。对按钮来说，它用于判断一个按钮是否自己独立的在滚动条的一段。对内层轨道来说，它表示内层轨道是否紧靠一个single-button。<br/>
+		:no-button    用于内层轨道，表示内层轨道是否要滚动到滚动条的终端，比如，滚动条两端没有按钮的时候。<br/>
+		:corner-present    用于所有滚动条轨道，指示滚动条圆角是否显示。<br/>
+		:window-inactive    用于所有的滚动条轨道，指示应用滚动条的某个页面容器(元素)是否当前被激活。(在webkit最近的版本中，该伪类也可以用于::selection伪元素。webkit团队有计划扩展它并推动成为一个标准的伪类)<br/>
+		另外，:enabled、:disabled、:hover、和:active等伪类同样在滚动条中适用。<br/>
+
+		看了这些伪类，怎么也没有明白是什么意思，还是自已得写的试试。实践出真知嘛！你可以击接以下链接到官方演示DEMO（感觉可以学到很多东西的）：http://trac.webkit.org/export/41842/trunk/LayoutTests/scrollbars/overflow-scrollbar-combinations.html<br/>
+
+		下面我自已尝试着去写的DEMO，不要嫌它太丑就好。<br/>
+		::-webkit-scrollbar        滚动条整体部分，其中的属性有width,height,background,border（就和一个块级元素一样）等。<br/>
+		::-webkit-scrollbar-button      滚动条两端的按钮。可以用display:none让其不显示，也可以添加背景图片，颜色改变显示效果。<br/>
+		::-webkit-scrollbar-track         外层轨道。可以用display:none让其不显示，也可以添加背景图片，颜色改变显示效果。<br/>
+		::-webkit-scrollbar-track-piece        内层轨道，滚动条中间部分（除去）。<br/>
+		::-webkit-scrollbar-thumb               滚动条里面可以拖动的那部分<br/>
+		::-webkit-scrollbar-corner               边角<br/>
+		::-webkit-resizer                       定义右下角拖动块的样式<br/>
+		注意：对以上各个部分定义width,height时。有如下功能：若是水平滚动条，则width属性不起作用，height属性用来控制滚动条相应部分竖直方向高度；若是竖直滚动条，则height属性不起作用，width属性用来控制相应部分的宽度。<br/>
+
+		能过上面的不断的测试。在Chrome中，滚动条中的各个部分和DOM中块级元素是一样的。通过::-webkit-scrollbar等就类似于原来所说的CSS中的选择器。而{}中的属性，你就像控制一般块级元素一样简单（强大啊）。
+		</div>
+	</div>
+</body>
+</html>

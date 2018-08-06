@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Document</title>
+</head>
+<script>
+	window.onload=function(){
+		var oTab = document.getElementById('tab1');
+		var btn = document.getElementById('btn');
+		btn.onclick = function(){
+			var arr = [];//创建一个数组
+			for(var i=0; i<oTab.tBodies[0].rows.length; i++){
+				arr[i] = oTab.tBodies[0].rows[i];//把每一行放进数组
+			}
+			arr.sort(function(tr1,tr2){//只有数组才能用sort()方法,.length是伪数组
+				var n1 = tr1.cells[0].innerHTML;
+				var n2 = tr2.cells[0].innerHTML;
+				return n1-n2;//从小到大进行排序
+			});
+			for(var i=0; i<oTab.tBodies[0].rows.length; i++){
+				oTab.tBodies[0].appendChild(arr[i]);//把每一行添加进tbody
+			}
+		}
+	}
+</script>
+<body>
+	<input type="button" id="btn" value="排序">
+	<table id="tab1" border="1" width="500">
+		<thead>
+			<td>ID</td>
+			<td>name</td>
+			<td>age</td>
+			<td>操作</td>
+		</thead>
+		<tbody>
+			<tr>
+				<td>7</td>
+				<td>Blue</td>
+				<td>11</td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>1</td>
+				<td>red</td>
+				<td>51</td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>3</td>
+				<td>张三</td>
+				<td>17</td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>4</td>
+				<td>李四</td>
+				<td>71</td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>2</td>
+				<td>王五</td>
+				<td>47</td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>8</td>
+				<td>张四</td>
+				<td>47</td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>5</td>
+				<td>李五</td>
+				<td>47</td>
+				<td></td>
+			</tr>
+		</tbody>
+	</table>
+</body>
+</html>

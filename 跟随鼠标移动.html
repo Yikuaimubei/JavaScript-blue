@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Document</title>
+	<style>
+		div{
+			width: 10px;
+			height: 10px;
+			background: red;
+			position: absolute;
+		}
+	</style>
+	<script>
+		document.onmousemove = function(ev){
+			var oEvent = ev||event;
+			// var scrollTop = document.documentElement.scrollTop||document.body.scrollTop;
+			// var div1 = document.getElementById('div1');
+			var div = document.getElementsByTagName('div');
+			var pos = getPos(oEvent);
+			for(var i=div.length-1; i>0; i--){
+				//前一个跟着后一个走
+				div[i].style.left = div[i-1].offsetLeft + 'px';
+				div[i].style.top = div[i-1].offsetTop + 'px';
+			}
+			div[0].style.left = pos.x + 'px';
+			div[0].style.top = pos.y + 'px';
+			//client其实是可视区坐标
+			//所以用到client的时候一定要加上scrollTop,不然会出事
+		}
+		//获取鼠标左边的函数
+		function getPos(ev){
+			var scrollTop = document.documentElement.scrollTop||document.body.scrollTop;
+			var scrollLeft = document.documentElement.scrollLeft||document.body.scrollLeft;
+			return {
+				x: ev.clientX + scrollLeft,
+				y: ev.clientY + scrollTop
+			}
+		}
+	</script>
+</head>
+<body style="height: 2000px">
+	<div></div>
+	<div></div>
+	<div></div>
+	<div></div>
+	<div></div>
+	<div></div>
+	<div></div>
+	<div></div>
+	<div></div>
+	<div></div>
+	<div></div>
+	<div></div>
+	<div></div>
+	<div></div>
+	<div></div>
+	<div></div>
+	<div></div>
+	<div></div>
+	<div></div>
+	<div></div>
+	<div></div>
+	<div></div>
+	<div></div>
+	<div></div>
+	<div></div>
+	<div></div>
+	<div></div>
+	<div></div>
+	<div></div>
+	<div></div>
+	<div></div>
+	<div></div>
+	<div></div>
+	<div></div>
+	<div></div>
+
+</body>
+</html>

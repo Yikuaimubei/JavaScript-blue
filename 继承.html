@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Document</title>
+	<style>
+		#div1{
+			width: 200px;
+			height: 200px;
+			background: yellow;
+			position:absolute;
+		}
+	</style>
+	<script>
+// 		function A(){
+// 			this.abc = 12;
+// 		}
+// 		A.prototype.show = function(){
+// 			alert(this.abc);
+// 		}
+// 		//继承A
+// 		function B(){
+// 			A.call(this);//属性的继承通过call()
+// 		}
+// 		//B.prototype = A.prototype;
+// 		//直接赋值会因为js引用的问题导致A方法等于B方法
+// 		for(var i in A.prototype){//方法的继承通过for循环创建新的B方法
+// 			B.prototype[i] = A.prototype[i];
+// 		}
+
+//面向对象的拖拽
+		window.onload = function(){
+			new Drag('div1');
+		}
+		function Drag(id){
+			var _this = this;
+			this.div1 = document.getElementById(id);
+			this.disX = 0;
+			this.disY = 0;
+			this.div1.onmousedown = function(ev){
+				_this.fnDown(ev);
+			}
+		}
+		Drag.prototype.fnDown = function(ev){
+			var _this = this;
+			var oEvent = ev||event;
+			this.disX = oEvent.clientX - this.div1.offsetLeft;
+			this.disY = oEvent.clientY - this.div1.offsetTop;
+			document.onmousemove = function(ev){
+				_this.fnMove(ev);
+			}
+			document.onmouseup = function(){
+				_this.fnUp();
+			}
+		}
+		Drag.prototype.fnMove = function(ev){
+			var oEvent = ev||event;
+			this.div1.style.left = oEvent.clientX - this.disX + 'px';
+			this.div1.style.top = oEvent.clientY - this.disY + 'px';
+		}
+		Drag.prototype.fnUp = function(){
+			document.onmousemove = null;
+			document.onmouseup = null;
+		}
+	</script>
+</head>
+<body>
+	<div id="div1"></div>
+</body>
+</html>

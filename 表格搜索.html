@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Document</title>
+</head>
+<script>
+	window.onload=function(){
+		var oTab = document.getElementById('tab1');
+		var btn = document.getElementById('btn');
+		var name = document.getElementById('name');
+		var age = document.getElementById('age');
+		
+		btn.onclick = function(){
+			for(var i=0; i<oTab.tBodies[0].rows.length; i++){
+				var sTab = oTab.tBodies[0].rows[i].cells[1].innerHTML.toLowerCase();//对比值转换小写
+				var sTxt = name.value.toLowerCase();//输入值转换小写
+				var arr =sTxt.split(' ');//假设用户用空格隔开关键字
+				oTab.tBodies[0].rows[i].style.background = '';
+				for(var j=0; j<arr.length; j++){
+					if(sTab.search(arr[j])!=-1){
+						//search()=-1:没找到相关字,search()!==-1:找到 了相关字
+						oTab.tBodies[0].rows[i].style.background = 'green';
+					}else{
+						//oTab.tBodies[0].rows[i].style.background = '';
+						//如果把清空样式代码写在这,就不能模糊查找,因为除了最后一个关键字,其余都会被循环清空一次
+					}
+				}
+			}
+		}
+	}
+</script>
+<body>
+	姓名：<input type="text" id="name">
+	<input type="button" id="btn" value="搜索">
+	<table id="tab1" border="1" width="500">
+		<thead>
+			<td>ID</td>
+			<td>name</td>
+			<td>age</td>
+			<td>操作</td>
+		</thead>
+		<tbody>
+			<tr>
+				<td>1</td>
+				<td>Blue</td>
+				<td>11</td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>3</td>
+				<td>red</td>
+				<td>51</td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>3</td>
+				<td>张三</td>
+				<td>17</td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>4</td>
+				<td>李四</td>
+				<td>71</td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>5</td>
+				<td>王五</td>
+				<td>47</td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>5</td>
+				<td>张四</td>
+				<td>47</td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>5</td>
+				<td>李五</td>
+				<td>47</td>
+				<td></td>
+			</tr>
+		</tbody>
+	</table>
+</body>
+</html>

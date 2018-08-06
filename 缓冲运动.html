@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Document</title>
+</head>
+<style type="text/css">
+	#div1{
+		width: 100px;
+		height: 100px;
+		left: 0;
+		margin-top: 40px;
+		background: red;
+		position:absolute;
+	}
+	#div2{
+		width: 1px;
+		height: 200px;
+		left: 300px;
+		background: black;
+		position:absolute;
+	}
+	#div3{
+		width: 1px;
+		height: 200px;
+		left: 600px;
+		background: black;
+		position:absolute;
+	}
+</style>
+<script type="text/javascript">
+	// var start = document.getElementById('start');
+	//缓冲运动是物体距离目标位置越近速度越慢的一种运动
+	//（目标距离-当前距离)/n，可以达到预期效果
+	
+
+	var timer = null;//不应该把 timer 定义在事件当中,不然每次触发事件都将生成一个新的timer对象,导致多个定时器同时刷新一个div的位置，引起抖动
+	function startMove(iTarget){
+		var div1 = document.getElementById('div1');
+		var speed = 0;
+		clearInterval(timer);//提前关闭定时器可以保证每次点击只开一个定时器,不会导致速度越来越快
+		timer = setInterval(function(){
+			if(div1.offsetLeft<iTarget){
+				speed = Math.ceil((iTarget - div1.offsetLeft)/10);
+			}
+			else if(div1.offsetLeft>iTarget){
+				speed = Math.floor((iTarget - div1.offsetLeft)/10);
+				//speed为负数时向下取整
+			}
+			else{
+				speed = 0;
+				// clearInterval(timer);
+			}
+			div1.style.left = div1.offsetLeft + speed + 'px';
+		},30);
+	}
+	
+</script>
+<body>
+	<input type="button" value="还原" onclick="startMove(0)">
+	<input type="button" value="300px" onclick="startMove(300)">
+	<input type="button" value="600px" id="start2" onclick="startMove(600)">
+	<div id="div1"></div>
+	<div id="div2"></div>
+	<div id="div3"></div>
+</body>
+</html>

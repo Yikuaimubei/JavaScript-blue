@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Document</title>
+	<script>
+// 面向对象：对象是一个整体，对外提供一些操作；面向对象指的是使用对象时只关注对象提供的功能，而不关注其内部细节；（这是一种通用思想，而非只在编程中适用）
+// JS中面向对象：简称OOP，具有以下三个特点:
+// 抽象：抓住主要问题
+// 封装：不考虑内部实现，只考虑功能使用
+// 继承：从已有对象上，继承出新的对象，可以最大限度重用现有代码，包括多重继承（继承多个对象的功能）和多态
+// 对象组成：包括方法和属性
+// 方法：和函数类似，函数是自由的，但方法具有归属的对象，这两者都是过程量，是动态的
+// 属性：和变量类似，变量时自由的，但属性具有归属的对象，这两者都是状态量，是静态的
+
+// 		var a = 12;		//变量:自由的,不属于任何人
+// 		alert(a);
+						//变量和属性其实是一个东西
+// 		var arr = [1,2,3,4,5,6];
+// 		arr.a = 12;		//属性:属于一个对象
+// 		alert(a);
+// 		
+// 		function aaa(){			//函数:自由的
+// 			alert('abc');
+// 		}
+// 		var aaa = [1,2,3,4];
+// 		arr.aaa = function(){	//方法(当函数属于一个对象的时候就叫方法):属于一个对象
+// 			alert('abc');
+// 		}
+
+// 		var arr = [1,2,3,4,5,6];
+// 		arr.a = 12;	
+// 		arr.show = function(){
+// 			alert(this.a);		//this此时指向arr本身
+// 		}
+// 		oDiv.onclick = function(){	//给对象添加对象其实就说给对象添加方法
+// 			alert(this);		//当前的方法属于谁,this就是谁
+// 		}
+// 		
+// 		function show(){		//等于window.show = function(){}
+// 			alert(this);		//全局函数其实是属于window下的
+// 		}
+
+
+// 		注意：不能在系统对象中随意附加方法、属性，否则会覆盖已有方法、属性；
+// 		object对象：空白对象；
+//写一个最简单的面向对象程序1.0,缺点:每添加一个对象就要重复这段代码
+// 		var obj = new Object();		//创建
+// 		obj.name = 'blue';			//属性
+// 		obj.qq = '32513651';
+// 		obj.showName = function(){	//方法
+// 			alert('我的名字叫：'+this.name);
+// 		}
+// 		obj.showQQ = function(){
+// 			alert('我的QQ号：'+this.qq);
+// 		}
+// 		obj.showName();				//调用
+// 		obj.showQQ();
+
+//写一个最简单的面向对象程序2.0,用函数编写对象能大量缩减代码,构造对象时只需调用函数
+//简称构造函数,与普通函数没有不同,只是工作内容是构造对象所以叫构造函数
+//这种方法也叫工厂方式：创建空白对象，加工对象，返回对象；
+//缺点：创建时没有’new’，函数重复导致资源浪费；
+// 	function createPerson(name,qq){
+// 		//原料
+// 		var obj = new Object();		//创建
+// 		//加工
+// 		obj.name = name;			//属性
+// 		obj.qq = qq;
+// 		obj.showName = function(){	//方法
+// 			alert('我的名字叫：'+this.name);
+// 		}
+// 		obj.showQQ = function(){
+// 			alert('我的QQ号：'+this.qq);
+// 		}
+// 		//出厂
+// 		return obj;
+// 	}
+// 	var obj = createPerson('blue','32513651')
+// 	obj.showName();				//调用
+// 	obj.showQQ();
+// 	var obj2 = createPerson('red','246727271')
+// 	obj2.showName();			//调用
+// 	obj2.showQQ();
+// 	alert(obj.showName==obj2.showName);	//false
+	
+//写一个最简单的面向对象程序3.0,解决创建时没有’new’;
+//在原型上加方法解决函数重复导致资源浪费;
+//也叫混合方式构造对象,基本上都是用这种方法构造对象
+//混合方式原则：用构造函数加属性,用原型加方法(方法都是相同的，属性是不同的)
+//构造函数的名字一般首字母大写
+// 	function CreatePerson(name,qq){
+// 		//函数加了new之后,系统会自动创建:
+// 		//var this = new Object();		//创建
+// 		//加工
+// 		this.name = name;			//属性
+// 		this.qq = qq;
+// 		//系统会自动返回
+// 		//return this;
+// 	}
+// 	CreatePerson.prototype.showName=function(){	//用原型加方法
+// 		alert('我的名字叫：'+this.name);
+// 	}
+// 	CreatePerson.prototype.showQQ=function(){
+// 		alert('我的QQ号：'+this.qq);
+// 	}
+// 	var obj = new CreatePerson('blue','32513651')	//加上new
+// 	obj.showName();				//调用
+// 	obj.showQQ();
+// 	var obj2 = new CreatePerson('red','246727271')
+// 	obj2.showName();			//调用
+// 	obj2.showQQ();
+// 	alert(obj.showName==obj2.showName);	//true,两个对象共用一个方法
+	function Person(first, last, age, gender, interests) {
+		this.name = {
+			first,
+			last
+		};
+		this.age = age;
+		this.gender = gender;
+		this.interests = interests;
+		this.bio = function() {
+			var pronoun;
+			if(gender=='man'){
+				pronoun = 'He likes';
+			}else{
+				pronoun = 'She likes';
+			}
+// 			for(var i=0;i<interests.length;i++){
+// 				var str = '';
+				var str = interests.join();
+			
+				console.log(this.name.first + ' ' + this.name.last + ' is ' + this.age + ' years old.'+ pronoun + str + '.');
+	};
+		this.greeting = function() {
+			alert('Hi! I\'m ' + this.name.first + '.');
+		};
+	};
+	var person1 = new Person('Bob', 'Smith', 'woman', 32, 'male', ['music', 'skiing','car','mike']);
+	console.log(person1['age'])
+	console.log(person1.interests[1])
+	person1.bio()
+	// console.log(person1.greeting());
+</script>
+</head>
+<body>
+	
+</body>
+</html>

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Document</title>
+	<style type="text/css">
+		.active{
+			background: yellow;
+		}
+		#div1 div{
+			width: 200px;
+			height: 50px;
+			background: #ccc;
+			border: 1px solid #000000;
+			display: none;
+		}
+	</style>
+	<script type="text/javascript">
+		//面向过程选项卡
+// 		window.onload=function (){
+// 			var oDiv=document.getElementById('div1');
+// 			var aBtn=oDiv.getElementsByTagName('input');
+// 			var aDiv=oDiv.getElementsByTagName('div');
+// 			
+// 			for(var i=0;i<aBtn.length;i++){
+// 				aBtn[i].index=i;
+// 				aBtn[i].onclick=function (){
+// 					for(var i=0;i<aBtn.length;i++){
+// 						aBtn[i].className=''
+// 						aDiv[i].style.display='none';
+// 					}
+// 					this.className='active';
+// 					aDiv[this.index].style.display='block';
+// 				};
+// 			}
+// 		};
+//		将面向过程的函数改写成面向对象的形式:
+// 		不能有函数嵌套，但可以有全局变量；
+// 		将onload改写成构造函数，将全局变量改写成属性，将函数改写成方法；
+// 		debug，主要容易出现在this、事件、闭包及传参上；
+		//8.创建一个对象
+		window.onload = function(){
+			new TabSwicth('div1');
+		}
+		//2.改写为全局变量
+		//5.干掉全局变量
+// 		var btn = null;
+// 		var aDiv = null;
+		//3.干掉window.onload
+		// window.onload = function(){
+		function TabSwicth(id){//这是个构造函数
+			var _this = this;//13.此时的this指向函数TabSwicth(id),
+			var oDiv = document.getElementById(id);//4.参数改成id
+			//5.变量——>属性
+			this.btn = document.getElementsByTagName('input');
+			this.aDiv = oDiv.getElementsByTagName('div');
+			for(var i=0; i<this.btn.length; i++){
+				//6.变量——>属性之后所有变量都得加this.
+				this.btn[i].index = i;
+				this.btn[i].onclick = function(){//12.通过函数赋值，可以避免把aDiv赋值给某一个按钮
+					_this.fnClick(this);
+					//9.fnClick已经变成方法,所以要加this.
+					//14.用_this替换this可以让fnClick方法添加到所有按钮
+					//15.把被点击的按钮作为参数传给fnClick()
+				}
+			}
+		}
+		//1.把函数放在onload外	7.函数——>方法
+		TabSwicth.prototype.fnClick = function(btn){
+			//10.在这一步.length为undefined,因为此时的this指向某一个按钮
+			for(var j=0; j<this.aDiv.length; j++){
+				this.btn[j].className = '';
+				this.aDiv[j].style.display = 'none';
+			}
+			btn.className = 'active';
+			this.aDiv[btn.index].style.display = 'block';
+		}
+	</script>
+</head>
+<body>
+	<div id="div1">
+		<input type="button" class="active" value="111">
+		<input type="button" value="222" />
+		<input type="button" value="333" />
+		<div style="display: block;">3135514135135</div>
+		<div>aaa</div>
+		<div>ghea3252</div>
+	</div>
+</body>
+</html>

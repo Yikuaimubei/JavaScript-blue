@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Document</title>
+</head>
+<script>
+	function getByClass(oParent,sClass){
+		var oEle = oParent.getElementsByTagName('*');//获取父元素后的所有子代元素
+		var aResult = [];//空数组用于储存for循环的多个返回值
+		for(var i=0; i<oEle.length; i++){
+			if(oEle[i].className==sClass){
+				aResult.push(oEle[i]);
+			}
+		}
+		return aResult;//把数组的值返回出函数
+	}
+	
+	window.onload = function(){
+// 		var li = document.getElementsByTagName('li');
+// 		for(var i=0; i<li.length; i++){
+// 			if(li[i].className=='box'){
+// 				li[i].style.backgroundColor = 'red';
+// 			}
+// 		}
+		var ul1=document.getElementById('ul1');
+		var oUl=document.getElementById('ul1');
+		var aBox=getByClass(oUl, 'box');
+		
+		for(var i=0;i<aBox.length;i++)
+		{
+			aBox[i].style.background='red';
+		}
+	}
+</script>
+<body>
+	<ul id="ul1">
+		<li class="box"></li>
+		<li class="box"></li>
+		<li></li>
+		<li class="box"></li>
+		<li></li>
+		<li class="box"></li>
+	</ul>
+</body>
+</html>

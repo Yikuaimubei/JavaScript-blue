@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Document</title>
+</head>
+<style>
+	body{
+		height: 5000px;
+	}
+	#div1{
+		width: 200px;
+		height: 200px;
+		margin-top: 10px;
+		background: red;
+		position: absolute;
+		buttom: 0;
+		right: 0;
+	}
+</style>
+<script type="text/javascript">
+	window.onscroll = function(){
+		var div1 = document.getElementById('div1');
+		var scrollTop = document.documentElement.scrollTop||document.body.scrollTop;
+		div1.style.top = document.documentElement.clientHeight-div1.offsetHeight+scrollTop+'px';
+		
+	}
+</script>
+<body>
+	<div id="div1"></div>
+</body>
+</html>
